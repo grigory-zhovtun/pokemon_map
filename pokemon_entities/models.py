@@ -29,11 +29,11 @@ class PokemonEntity(models.Model):
     appeared_at = models.DateTimeField(verbose_name='Время появления', null=True, blank=True)
     disappeared_at = models.DateTimeField(verbose_name='Время исчезновения', null=True, blank=True)
 
-    level = models.IntegerField(verbose_name="Уровень")
-    health = models.IntegerField(verbose_name="Здоровье")
-    strength = models.IntegerField(verbose_name="Сила")
-    defense = models.IntegerField(verbose_name="Защита")
-    stamina = models.IntegerField(verbose_name="Выносливость")
+    level = models.IntegerField(verbose_name="Уровень", null=True, blank=True)
+    health = models.IntegerField(verbose_name="Здоровье", null=True, blank=True)
+    strength = models.IntegerField(verbose_name="Сила", null=True, blank=True)
+    defense = models.IntegerField(verbose_name="Защита", null=True, blank=True)
+    stamina = models.IntegerField(verbose_name="Выносливость", null=True, blank=True)
 
 
 def __str__(self):
