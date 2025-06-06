@@ -1,43 +1,74 @@
-# Карта покемонов
+
+# Pokemon Map
 
 ![screenshot](https://dvmn.org/filer/canonical/1563275070/172/)
 
-### Предметная область
+### About the Project
 
-Сайт для помощи по игре [Pokemon GO](https://www.pokemongo.com/en-us/). Это игра про ловлю [покемонов](https://ru.wikipedia.org/wiki/%D0%9F%D0%BE%D0%BA%D0%B5%D0%BC%D0%BE%D0%BD).
+This website is designed to help [Pokemon GO](https://www.pokemongo.com/en-us/) players. Pokemon GO is a game about catching [Pokemon](https://en.wikipedia.org/wiki/Pok%C3%A9mon).
 
-Суть игры в том, что на карте периодически появляются покемоны, на определённый промежуток времени. Каждый игрок может поймать себе покемона, и пополнить свою личную коллекцию.
+The core gameplay involves Pokemon appearing on the map for a limited time. Each player can catch Pokemon to add them to their personal collection.
 
-На карте может быть сразу несколько особей одного и того же покемона: например, 3 Бульбазавра. Каждую особь могут поймать сразу несколько игроков. Если игрок поймал себе особь покемона, она исчезает для него, но остаётся для других.
+Multiple specimens of the same Pokemon can appear on the map simultaneously - for example, 3 Bulbasaurs. Each specimen can be caught by multiple players. When a player catches a Pokemon, it disappears for them but remains available for others.
 
-В игре есть механика эволюции. Покемон одного вида может "эволюционировать" в другого. Так, например, Бульбазавр превращается в Ивизавра, а тот превращается в Венузавра.
+The game features an evolution mechanic. Pokemon of one species can "evolve" into another. For example, Bulbasaur evolves into Ivysaur, which then evolves into Venusaur.
 
 ![bulba evolution](https://dvmn.org/filer/canonical/1562265973/167/)
 
-### Как запустить
+---
 
-Для запуска сайта вам понадобится Python третьей версии.
+## Requirements
 
-Скачайте код с GitHub. Затем установите зависимости
+- Python 3.12 or newer
+- Django 3.1
+- Other required packages are listed in `requirements.txt`
+
+---
+
+## How to Run
+
+To run this website, you'll need Python 3.
+
+Download the code from GitHub. Then install the dependencies:
 
 ```sh
 pip install -r requirements.txt
 ```
 
-Запустите разработческий сервер
+Create a database file and apply migrations:
 
 ```sh
-python3 manage.py runserver
+python manage.py migrate
 ```
 
-### Переменные окружения
+Start the development server:
 
-Часть настроек проекта берётся из переменных окружения. Чтобы их определить, создайте файл `.env` рядом с `manage.py` и запишите туда данные в таком формате: `ПЕРЕМЕННАЯ=значение`.
+```sh
+python manage.py runserver
+```
+### Environment Variables
 
-Доступны 2 переменные:
-- `DEBUG` — дебаг-режим. Поставьте True, чтобы увидеть отладочную информацию в случае ошибки.
-- `SECRET_KEY` — секретный ключ проекта
+Some project settings are taken from environment variables. To define them, create a `.env` file next to `manage.py` and write data in the following format: `VARIABLE=value`.
 
-## Цели проекта
+Two variables are available:
+- `DEBUG` — debug mode. Set to True to see debugging information in case of an error.
+- `SECRET_KEY` — the project's secret key
 
-Код написан в учебных целях — это урок в курсе по Python и веб-разработке на сайте [Devman](https://dvmn.org).
+
+---
+
+## Usage
+
+- The main page (`/`) displays a map of Moscow with Pokemon and a list of all available Pokemon.
+- The Pokemon page (`/pokemon/<pokemon_id>/`) shows detailed information about a specific Pokemon, including its evolutions.
+
+### Main Routes:
+
+- **Main Page:** `/` - Map of all Pokemon.
+- **Pokemon Page:** `/pokemon/<pokemon_id>/` - Detailed information about a Pokemon.
+- **Admin Panel:** `/admin/` - Control panel for adding and editing Pokemon.
+
+### Database Models:
+
+- **Pokemon** - stores information about Pokemon species (name, description, image, evolutions).
+- **PokemonEntity** - represents specific Pokemon on the map with their coordinates and characteristics.
