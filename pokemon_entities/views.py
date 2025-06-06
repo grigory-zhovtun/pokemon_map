@@ -42,7 +42,6 @@ def show_all_pokemons(request):
         appeared_at__lte=current_time,
         disappeared_at__gte=current_time
     )
-    print(pokemon_entities)
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
     for pokemon_entity in pokemon_entities:
         img_url = get_pokemon_image_url(request, pokemon_entity.pokemon)
@@ -68,8 +67,11 @@ def show_all_pokemons(request):
 
 
 def show_pokemon(request, pokemon_id):
-    pokemon = get_object_or_404(Pokemon, id=pokemon_id)
-    pokemon_entities = PokemonEntity.objects.filter(pokemon=pokemon)
+    pokemon = get_object_or_404(
+        Pokemon.objects.select_related('previous_evolution').prefetch_related('next_evolutions'),
+        id=pokemon_id
+    )
+    pokemon_entities = PokemonEntity.objects.filter(pokemon=pokemon).select_related('pokemon')
 
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
     img_url = get_pokemon_image_url(request, pokemon)
