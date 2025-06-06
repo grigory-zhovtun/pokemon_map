@@ -5,7 +5,7 @@ from django.http import HttpResponseNotFound
 from django.shortcuts import render
 from django.core.cache import cache
 
-from .models import Pokemon
+from .models import Pokemon, PokemonEntity
 
 
 MOSCOW_CENTER = [55.751244, 37.618423]
@@ -29,33 +29,31 @@ def add_pokemon(folium_map, lat, lon, image_url=DEFAULT_IMAGE_URL):
     ).add_to(folium_map)
 
 
+def get_pokemon_image_url(request, pokemon):
+    if pokemon.image:
+        return request.build_absolute_uri(pokemon.image.url)
+    return DEFAULT_IMAGE_URL
+
+
 def show_all_pokemons(request):
-    pokemons = cache.get('pokemons')
-    if not pokemons:
-        with open('pokemon_entities/pokemons.json', encoding='utf-8') as database:
-            pokemons = json.load(database)['pokemons']
-        cache.set('pokemons_data', pokemons, 3600)
+    pokemons = Pokemon.objects.all()
+    pokemon_entities = PokemonEntity.objects.select_related('pokemon').all()
 
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
-    for pokemon in pokemons:
-        for pokemon_entity in pokemon['entities']:
-            add_pokemon(
-                folium_map, pokemon_entity['lat'],
-                pokemon_entity['lon'],
-                pokemon['img_url']
-            )
+    for pokemon_entity in pokemon_entities:
+        img_url = get_pokemon_image_url(request, pokemon_entity.pokemon)
+        add_pokemon(
+            folium_map,
+            pokemon_entity.latitude,
+            pokemon_entity.longitude,
+            img_url
+        )
 
-    pokemons_from_db = Pokemon.objects.all()
     pokemons_on_page = []
-    for pokemon in pokemons_from_db:
-        if pokemon.image:
-            img_url = request.build_absolute_uri(pokemon.image.url)
-        else:
-            img_url = DEFAULT_IMAGE_URL
-
+    for pokemon in pokemons:
         pokemons_on_page.append({
             'pokemon_id': pokemon.id,
-            'img_url': img_url,
+            'img_url': get_pokemon_image_url(request, pokemon),
             'title_ru': pokemon.title,
         })
 
