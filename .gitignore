@@ -1,3 +1,4 @@
+
 # Created by https://www.gitignore.io
 
 ### OSX ###
@@ -7,7 +8,6 @@
 
 # Icon must end with two \r
 Icon
-
 
 # Thumbnails
 ._*
@@ -23,11 +23,11 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-
 ### Python ###
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
+*.pyo
 
 # C extensions
 *.so
@@ -77,28 +77,71 @@ docs/_build/
 # PyBuilder
 target/
 
-
 ### Django ###
 *.log
-*.pot
 *.pyc
 __pycache__/
 local_settings.py
+settings_local.py
 
+# Environment variables
 .env
+.env.local
+.env.*.local
+
+# Database
 db.sqlite3
+db.sqlite3-journal
+*.sqlite3
+
+# Media files
 media/
 
-# ── Python ──────────────────────────
-*.pyo
+# Static files
+staticfiles/
+static/
 
-# ── Virtualenv ──────────────────────
+# Virtualenv
 venv/
-.env/            # если вы создаёте окружение так
+.env/
+.venv/
+ENV/
+env/
 
-# ── IDE / OS файлы ──────────────────
+# IDE / OS файлы
 .idea/
 .vscode/
+*.swp
+*.swo
+*~
 
-/staticfiles/
-*.pot *.mo
+# Logs
+*.log
+logs/
+
+# Django secret key
+secret_key.txt
+
+# Cache files
+.cache/
+
+# pytest
+.pytest_cache/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# celery
+celerybeat-schedule
+celerybeat.pid
+
+# Coverage reports
+htmlcov/
+
+# node_modules (если используется frontend)
+node_modules/
+
+# Backup files
+*.bak
