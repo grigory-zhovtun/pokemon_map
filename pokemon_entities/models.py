@@ -3,10 +3,23 @@ from django.db import models
 
 
 class Pokemon(models.Model):
-    title = models.CharField(max_length=200, blank=True)
-    image = models.ImageField(upload_to='images/', blank=True, null=True)
+    title = models.CharField(max_length=200, blank=True, verbose_name="Название")
+    title_en = models.CharField(max_length=200, blank=True, verbose_name="Название (англ)")
+    title_jp = models.CharField(max_length=200, blank=True, verbose_name="Название (япон)")
+    image = models.ImageField(upload_to='images/', blank=True, null=True, verbose_name="Изображение")
+    description = models.TextField(blank=True, verbose_name="Описание")
 
-    def __str__(self):
+    previous_evolution = models.ForeignKey(
+        'self',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='next_evolutions',
+        verbose_name="Предыдущая эволюция"
+    )
+
+
+def __str__(self):
         return self.title
 
 
