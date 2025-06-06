@@ -3,7 +3,9 @@ import json
 
 from django.http import HttpResponseNotFound
 from django.shortcuts import render
-from django.core.cache import cache
+from django.utils.timezone import localtime, now
+from django.utils import timezone
+
 
 from .models import Pokemon, PokemonEntity
 
@@ -36,9 +38,13 @@ def get_pokemon_image_url(request, pokemon):
 
 
 def show_all_pokemons(request):
+    current_time = timezone.now()
     pokemons = Pokemon.objects.all()
-    pokemon_entities = PokemonEntity.objects.select_related('pokemon').all()
-
+    pokemon_entities = PokemonEntity.objects.select_related('pokemon').filter(
+        appeared_at__lte=current_time,
+        disappeared_at__gte=current_time
+    )
+    print(pokemon_entities)
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
     for pokemon_entity in pokemon_entities:
         img_url = get_pokemon_image_url(request, pokemon_entity.pokemon)
