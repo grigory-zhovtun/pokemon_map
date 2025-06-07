@@ -71,7 +71,7 @@ def show_pokemon(request, pokemon_id):
         Pokemon.objects.select_related('previous_evolution').prefetch_related('next_evolutions'),
         id=pokemon_id
     )
-    pokemon_entities = PokemonEntity.objects.filter(pokemon=pokemon).select_related('pokemon')
+    pokemon_entities = pokemon.entities.all().select_related('pokemon')
 
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
     img_url = get_pokemon_image_url(request, pokemon)
