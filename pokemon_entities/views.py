@@ -76,18 +76,9 @@ def show_pokemon(request, pokemon_id):
             request=request
         )
 
-    entities = []
-    for pokemon_entity in pokemon_entities:
-        entities.append({
-            'level': pokemon_entity.level,
-            'lat': pokemon_entity.latitude,
-            'lon': pokemon_entity.longitude,
-        })
-
     return render(request, 'pokemon.html', context={
         'map': folium_map._repr_html_(),
         'pokemon': pokemon,
-        'entities': entities,
         'DEFAULT_IMAGE_URL': DEFAULT_IMAGE_URL,
     })
 
