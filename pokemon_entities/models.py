@@ -3,10 +3,10 @@ from django.db import models
 
 
 class Pokemon(models.Model):
-    title = models.CharField(max_length=200, blank=True, verbose_name="Название")
+    title = models.CharField(max_length=200, verbose_name="Название")
     title_en = models.CharField(max_length=200, blank=True, verbose_name="Название (англ)")
     title_jp = models.CharField(max_length=200, blank=True, verbose_name="Название (япон)")
-    image = models.ImageField(upload_to='images/', blank=True, null=True, verbose_name="Изображение")
+    image = models.ImageField(upload_to='images/', null=True, verbose_name="Изображение")
     description = models.TextField(blank=True, verbose_name="Описание")
 
     previous_evolution = models.ForeignKey(
